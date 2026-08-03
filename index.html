@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Norbert — Life OS Dashboard</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">N</span>
+      <div class="brand-text">
+        <h1>Norbert</h1>
+        <p class="subtitle">Life OS Dashboard</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Dashboard sections">
+      <button class="tab-btn is-active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
+      <button class="tab-btn" data-tab="lifescan" role="tab" aria-selected="false">Life Scan</button>
+      <button class="tab-btn" data-tab="patterns" role="tab" aria-selected="false">Patterns</button>
+      <button class="tab-btn" data-tab="quarter" role="tab" aria-selected="false">Quarter Proof</button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+
+    <section id="tab-overview" class="tab-panel is-active" data-accent="gold">
+      <div class="panel-grid">
+        <article class="card" id="card-big3">
+          <h2 class="card-title">Big 3 <span class="card-period" id="overview-period"></span></h2>
+          <ul class="checklist" id="big3-list"></ul>
+          <a class="source-link" id="overview-source" href="#" target="_blank" rel="noopener">View source in Notion →</a>
+        </article>
+        <article class="card" id="card-anchors">
+          <h2 class="card-title">Anchors</h2>
+          <div class="anchor-row">
+            <span class="anchor-label">Workout Anchor</span>
+            <span class="badge" id="badge-workout">—</span>
+          </div>
+          <div class="anchor-row">
+            <span class="anchor-label">Presence Anchor</span>
+            <span class="badge" id="badge-presence">—</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="tab-lifescan" class="tab-panel" data-accent="mixed">
+      <article class="card card-wide">
+        <h2 class="card-title">Life Scan Over Time</h2>
+        <div id="lifescan-chart-wrap"></div>
+        <p class="hint-note" id="lifescan-hint"></p>
+      </article>
+    </section>
+
+    <section id="tab-patterns" class="tab-panel" data-accent="violet">
+      <article class="card card-wide">
+        <h2 class="card-title">Pattern Notes</h2>
+        <div class="timeline" id="patterns-timeline"></div>
+      </article>
+    </section>
+
+    <section id="tab-quarter" class="tab-panel" data-accent="tan">
+      <article class="card card-wide">
+        <h2 class="card-title">Quarter Proof <span class="card-period" id="quarter-period"></span></h2>
+        <p class="quarter-focus" id="quarter-focus"></p>
+        <div class="quarter-proof-block">
+          <p class="label-mono">PROOF</p>
+          <p class="quarter-proof-text" id="quarter-proof-text"></p>
+        </div>
+        <div class="progress-block">
+          <div class="progress-labels">
+            <span id="progress-status-label"></span>
+            <span id="progress-pct-label"></span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span>Norbert — personal life OS, not for public browsing</span>
+    <span id="last-synced"></span>
+  </footer>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

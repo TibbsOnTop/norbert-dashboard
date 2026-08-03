@@ -1,0 +1,45 @@
+{
+  "generatedAt": "2026-08-02T18:00:00.000Z",
+  "overview": {
+    "period": "Week 4 — Aug",
+    "big3": [
+      "3 days weightlifting + 1 day 5k steps",
+      "Comments 5–15",
+      "Enjoy moments with wife without needing to have made money"
+    ],
+    "sourceUrl": "https://app.notion.com/p/3b0df610246b8105a71edd322afb6803",
+    "anchors": {
+      "workout": "Held",
+      "presence": "Partial"
+    }
+  },
+  "lifeScan": [
+    {
+      "period": "Week 4 — Aug",
+      "date": "2026-08-02",
+      "business": 3,
+      "health": 5,
+      "relationships": 4,
+      "innerSteadiness": 3,
+      "direction": 2
+    }
+  ],
+  "patterns": [
+    {
+      "period": "Week 4 — Aug",
+      "date": "2026-08-02",
+      "cadence": "Weekly",
+      "note": "Income = worth belief — echoed in Annual Blueprint + Aug Monthly Read",
+      "sourceUrl": "https://app.notion.com/p/3b0df610246b8105a71edd322afb6803"
+    }
+  ],
+  "quarterProof": {
+    "period": "Q3 2026 — Jul–Sep",
+    "status": "Closed Out",
+    "focus": "Belief through action — build coaching consistency with one simple rhythm.",
+    "priorities": "(1) Coaching consistency without process-hopping; (2) Protect Health + Energy.",
+    "proof": "One coaching rhythm kept all 90 days + 3 real conversations a week.",
+    "dateStart": "2026-07-01",
+    "progressPct": 100
+  }
+}

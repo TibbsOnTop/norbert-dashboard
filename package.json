@@ -1,0 +1,10 @@
+{
+  "name": "norbert-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Live dashboard for the Norbert Life OS Notion system.",
+  "scripts": {
+    "sync": "node scripts/sync.mjs"
+  }
+}
