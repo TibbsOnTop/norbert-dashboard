@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
-<title>Norbert — Life OS Dashboard</title>
+<title>Anthony's Life OS</title>
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,35 +12,39 @@
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<div class="app">
+<div class="app-shell">
 
-  <header class="app-header">
-    <div class="brand">
-      <span class="brand-mark">N</span>
-      <div class="brand-text">
-        <h1>Norbert</h1>
-        <p class="subtitle">Life OS Dashboard</p>
-      </div>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h1>Anthony's<br>Life OS</h1>
     </div>
-    <nav class="tabs" role="tablist" aria-label="Dashboard sections">
-      <button class="tab-btn is-active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
-      <button class="tab-btn" data-tab="lifescan" role="tab" aria-selected="false">Life Scan</button>
-      <button class="tab-btn" data-tab="patterns" role="tab" aria-selected="false">Patterns</button>
-      <button class="tab-btn" data-tab="quarter" role="tab" aria-selected="false">Quarter Proof</button>
+    <nav class="sidebar-nav" role="tablist" aria-label="Dashboard sections">
+      <button class="nav-btn is-active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
+      <button class="nav-btn" data-tab="season" role="tab" aria-selected="false">Season</button>
+      <button class="nav-btn" data-tab="lifescan" role="tab" aria-selected="false">Life Scan</button>
+      <button class="nav-btn" data-tab="patterns" role="tab" aria-selected="false">Patterns</button>
+      <button class="nav-btn" data-tab="quarter" role="tab" aria-selected="false">Quarter Proof</button>
+      <button class="nav-btn" data-tab="trackers" role="tab" aria-selected="false">Trackers</button>
     </nav>
-  </header>
+    <div class="sidebar-footer">
+      <p class="sync-line" id="last-synced"></p>
+      <p class="norbert-credit">kept in sync by Norbert</p>
+    </div>
+  </aside>
 
   <main class="app-main">
 
-    <section id="tab-overview" class="tab-panel is-active" data-accent="gold">
+    <section id="tab-overview" class="tab-panel is-active" data-accent="orange">
       <div class="panel-grid">
         <article class="card" id="card-big3">
           <h2 class="card-title">Big 3 <span class="card-period" id="overview-period"></span></h2>
+          <p class="card-subtext">Your three priorities for this period, straight from the latest check-in.</p>
           <ul class="checklist" id="big3-list"></ul>
           <a class="source-link" id="overview-source" href="#" target="_blank" rel="noopener">View source in Notion →</a>
         </article>
         <article class="card" id="card-anchors">
           <h2 class="card-title">Anchors</h2>
+          <p class="card-subtext">Your two non-negotiables each period. Held = did it. Partial = some effort. Missed = didn't happen.</p>
           <div class="anchor-row">
             <span class="anchor-label">Workout Anchor</span>
             <span class="badge" id="badge-workout">—</span>
@@ -53,9 +57,38 @@
       </div>
     </section>
 
+    <section id="tab-season" class="tab-panel" data-accent="teal">
+      <p class="tab-intro">Zooming out from this week to the year it sits inside — the same hand-off chain that runs through every tool.</p>
+      <div class="cascade" id="season-cascade">
+        <article class="cascade-card cascade-year">
+          <p class="label-mono">YEAR <span id="season-annual-period"></span></p>
+          <h3 class="cascade-focus" id="season-annual-focus"></h3>
+          <p class="cascade-detail" id="season-annual-identity"></p>
+          <p class="cascade-detail cascade-detail-mono" id="season-annual-priorities"></p>
+        </article>
+        <article class="cascade-card cascade-quarter">
+          <p class="label-mono">QUARTER <span id="season-quarter-period"></span></p>
+          <h3 class="cascade-focus" id="season-quarter-focus"></h3>
+          <p class="cascade-detail cascade-detail-mono" id="season-quarter-priorities"></p>
+        </article>
+        <article class="cascade-card cascade-month">
+          <p class="label-mono">MONTH <span id="season-month-period"></span></p>
+          <h3 class="cascade-focus" id="season-month-focus"></h3>
+          <p class="cascade-detail" id="season-month-adjustment"></p>
+          <p class="cascade-detail cascade-detail-mono" id="season-month-energy"></p>
+        </article>
+        <article class="cascade-card cascade-week">
+          <p class="label-mono">WEEK <span id="season-week-period"></span></p>
+          <h3 class="cascade-focus" id="season-week-showup"></h3>
+          <p class="cascade-detail cascade-detail-mono" id="season-week-skill"></p>
+        </article>
+      </div>
+    </section>
+
     <section id="tab-lifescan" class="tab-panel" data-accent="mixed">
       <article class="card card-wide">
         <h2 class="card-title">Life Scan Over Time</h2>
+        <p class="card-subtext">Five areas, scored 1–5 at every check-in. Lines fill in as more history accumulates.</p>
         <div id="lifescan-chart-wrap"></div>
         <p class="hint-note" id="lifescan-hint"></p>
       </article>
@@ -64,6 +97,7 @@
     <section id="tab-patterns" class="tab-panel" data-accent="violet">
       <article class="card card-wide">
         <h2 class="card-title">Pattern Notes</h2>
+        <p class="card-subtext">Repeated beliefs or language spotted echoing across documents, tagged with where each one showed up.</p>
         <div class="timeline" id="patterns-timeline"></div>
       </article>
     </section>
@@ -71,6 +105,7 @@
     <section id="tab-quarter" class="tab-panel" data-accent="tan">
       <article class="card card-wide">
         <h2 class="card-title">Quarter Proof <span class="card-period" id="quarter-period"></span></h2>
+        <p class="card-subtext">The one-sentence proof that closes out the quarter, and how much of the 90 days has passed.</p>
         <p class="quarter-focus" id="quarter-focus"></p>
         <div class="quarter-proof-block">
           <p class="label-mono">PROOF</p>
@@ -84,16 +119,26 @@
           <div class="progress-track">
             <div class="progress-fill" id="progress-fill"></div>
           </div>
+          <p class="progress-caveat">Time elapsed, not likelihood of hitting the proof — that judgment call is yours.</p>
         </div>
       </article>
     </section>
 
-  </main>
+    <section id="tab-trackers" class="tab-panel" data-accent="green">
+      <div class="trackers-header">
+        <p class="tab-intro">Simple daily habits you manage yourself — floss, gym, water, whatever you want to keep honest. <strong>Lives only in this browser</strong>; export occasionally if you want a backup.</p>
+        <div class="trackers-actions">
+          <button class="btn-primary" id="add-tracker-btn">+ Add tracker</button>
+          <button class="btn-ghost" id="export-trackers-btn">Export</button>
+          <label class="btn-ghost btn-file" for="import-trackers-input">Import
+            <input type="file" id="import-trackers-input" accept="application/json" hidden />
+          </label>
+        </div>
+      </div>
+      <div class="tracker-list" id="tracker-list"></div>
+    </section>
 
-  <footer class="app-footer">
-    <span>Norbert — personal life OS, not for public browsing</span>
-    <span id="last-synced"></span>
-  </footer>
+  </main>
 
 </div>
 

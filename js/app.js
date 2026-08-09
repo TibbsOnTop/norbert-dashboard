@@ -1,10 +1,14 @@
 const CATEGORY_META = [
-  { key: "business", label: "Business", color: "var(--c-business)", raw: "#7C96B8" },
-  { key: "health", label: "Health & Energy", color: "var(--c-health)", raw: "#8FAE86" },
-  { key: "relationships", label: "Relationships", color: "var(--c-relationships)", raw: "#C0837E" },
-  { key: "innerSteadiness", label: "Inner Steadiness", color: "var(--c-inner)", raw: "#A891B8" },
-  { key: "direction", label: "Direction", color: "var(--c-direction)", raw: "#B9A986" },
+  { key: "business", label: "Business", raw: "#3F6690" },
+  { key: "health", label: "Health & Energy", raw: "#4C7C4A" },
+  { key: "relationships", label: "Relationships", raw: "#A8503B" },
+  { key: "innerSteadiness", label: "Inner Steadiness", raw: "#6B4A80" },
+  { key: "direction", label: "Direction", raw: "#8C6A2E" },
 ];
+
+const TRACKERS_KEY = "norbert_trackers";
+const TRACKER_LOG_KEY = "norbert_tracker_log";
+const TRACKER_HISTORY_DAYS = 7;
 
 const CADENCE_LABEL = {
   Daily: "Daily Check-In",
@@ -28,14 +32,16 @@ async function init() {
     return;
   }
   renderOverview(data.overview);
+  renderSeason(data.season, data.quarterProof);
   renderLifeScan(data.lifeScan || []);
   renderPatterns(data.patterns || []);
   renderQuarterProof(data.quarterProof);
   renderFooter(data.generatedAt);
+  initTrackers();
 }
 
 function setupTabs() {
-  const buttons = document.querySelectorAll(".tab-btn");
+  const buttons = document.querySelectorAll(".nav-btn");
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       buttons.forEach((b) => {
@@ -109,6 +115,43 @@ function setAnchorBadge(el, value) {
   el.className = `badge ${cls}`;
 }
 
+/* ---------- Season ---------- */
+
+function renderSeason(season, quarterProof) {
+  const annual = season && season.annual;
+  const monthly = season && season.monthly;
+  const weekly = season && season.weekly;
+
+  setCascadeField("season-annual-period", annual && annual.period);
+  setCascadeField("season-annual-focus", (annual && annual.focus) || "No annual focus recorded yet.");
+  setCascadeField("season-annual-identity", annual && annual.identity);
+  setCascadeField("season-annual-priorities", annual && annual.priorities);
+
+  const q = quarterProof || null;
+  setCascadeField("season-quarter-period", q && q.period);
+  setCascadeField("season-quarter-focus", (q && q.focus) || "No quarter focus recorded yet.");
+  setCascadeField("season-quarter-priorities", q && q.priorities);
+
+  setCascadeField("season-month-period", monthly && monthly.period);
+  setCascadeField("season-month-focus", (monthly && monthly.focus) || "No monthly focus recorded yet.");
+  setCascadeField("season-month-adjustment", monthly && monthly.adjustment);
+  setCascadeField("season-month-energy", monthly && monthly.energyGauge);
+
+  setCascadeField("season-week-period", weekly && weekly.period);
+  setCascadeField("season-week-showup", (weekly && weekly.showUpAs) || "No 'show up as' recorded yet this week.");
+  setCascadeField("season-week-skill", weekly && weekly.skillPracticing);
+}
+
+function setCascadeField(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (!value) {
+    el.textContent = "";
+    return;
+  }
+  el.textContent = value;
+}
+
 /* ---------- Life Scan ---------- */
 
 function renderLifeScan(rows) {
@@ -167,7 +210,7 @@ function buildLineChart(rows) {
     line.setAttribute("x2", width - padR);
     line.setAttribute("y1", y);
     line.setAttribute("y2", y);
-    line.setAttribute("stroke", "#2B3040");
+    line.setAttribute("stroke", "#E5D8BE");
     line.setAttribute("stroke-width", "1");
     svg.appendChild(line);
 
@@ -177,7 +220,7 @@ function buildLineChart(rows) {
     label.setAttribute("text-anchor", "end");
     label.setAttribute("font-size", "11");
     label.setAttribute("font-family", "IBM Plex Mono, monospace");
-    label.setAttribute("fill", "#6B7180");
+    label.setAttribute("fill", "#9C927E");
     label.textContent = g;
     svg.appendChild(label);
   }
@@ -191,7 +234,7 @@ function buildLineChart(rows) {
     label.setAttribute("text-anchor", "middle");
     label.setAttribute("font-size", "10.5");
     label.setAttribute("font-family", "IBM Plex Mono, monospace");
-    label.setAttribute("fill", "#9BA1AF");
+    label.setAttribute("fill", "#6B6255");
     label.textContent = r.period;
     svg.appendChild(label);
   });
@@ -291,6 +334,178 @@ function renderQuarterProof(q) {
     statusLabelEl.textContent = "In progress — time elapsed this quarter";
   }
   pctLabelEl.textContent = `${Math.round(pct)}%`;
+}
+
+/* ---------- Trackers (localStorage only) ---------- */
+
+function initTrackers() {
+  document.getElementById("add-tracker-btn").addEventListener("click", handleAddTracker);
+  document.getElementById("export-trackers-btn").addEventListener("click", handleExportTrackers);
+  document.getElementById("import-trackers-input").addEventListener("change", handleImportTrackers);
+  renderTrackers();
+}
+
+function loadTrackers() {
+  try {
+    return JSON.parse(localStorage.getItem(TRACKERS_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveTrackers(trackers) {
+  localStorage.setItem(TRACKERS_KEY, JSON.stringify(trackers));
+}
+
+function loadTrackerLog() {
+  try {
+    return JSON.parse(localStorage.getItem(TRACKER_LOG_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveTrackerLog(log) {
+  localStorage.setItem(TRACKER_LOG_KEY, JSON.stringify(log));
+}
+
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function lastNDayKeys(n) {
+  const keys = [];
+  const d = new Date();
+  for (let i = n - 1; i >= 0; i--) {
+    const day = new Date(d.getFullYear(), d.getMonth(), d.getDate() - i);
+    keys.push(`${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`);
+  }
+  return keys;
+}
+
+function computeStreak(entries) {
+  const d = new Date();
+  let streak = 0;
+  while (true) {
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    if (entries[key]) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
+function renderTrackers() {
+  const trackers = loadTrackers();
+  const log = loadTrackerLog();
+  const listEl = document.getElementById("tracker-list");
+
+  if (trackers.length === 0) {
+    listEl.innerHTML = `<p class="tracker-empty">No trackers yet — add one above (floss, gym, water, whatever you want to keep honest).</p>`;
+    return;
+  }
+
+  const today = todayKey();
+  const days = lastNDayKeys(TRACKER_HISTORY_DAYS);
+
+  listEl.innerHTML = "";
+  trackers.forEach((t) => {
+    const entries = log[t.id] || {};
+    const isDoneToday = !!entries[today];
+    const streak = computeStreak(entries);
+
+    const row = document.createElement("div");
+    row.className = "tracker-row";
+    row.dataset.id = t.id;
+
+    const dotsHtml = days.map((day) => `<span class="tracker-dot${entries[day] ? " is-done" : ""}"></span>`).join("");
+
+    row.innerHTML = `
+      <button class="tracker-check${isDoneToday ? " is-done" : ""}" aria-label="Toggle today for ${escapeHtml(t.name)}">✓</button>
+      <div class="tracker-info">
+        <span class="tracker-name">${escapeHtml(t.name)}</span>
+        <div class="tracker-strip">${dotsHtml}</div>
+      </div>
+      <span class="tracker-streak">${streak}d streak</span>
+      <button class="tracker-remove" aria-label="Remove ${escapeHtml(t.name)}">×</button>
+    `;
+
+    row.querySelector(".tracker-check").addEventListener("click", () => toggleTrackerToday(t.id));
+    row.querySelector(".tracker-remove").addEventListener("click", () => removeTracker(t.id));
+
+    listEl.appendChild(row);
+  });
+}
+
+function handleAddTracker() {
+  const name = prompt("Tracker name (e.g. Floss, Gym, Water):");
+  if (!name || !name.trim()) return;
+  const trackers = loadTrackers();
+  trackers.push({ id: `t_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`, name: name.trim(), createdAt: new Date().toISOString() });
+  saveTrackers(trackers);
+  renderTrackers();
+}
+
+function toggleTrackerToday(id) {
+  const log = loadTrackerLog();
+  const today = todayKey();
+  log[id] = log[id] || {};
+  log[id][today] = !log[id][today];
+  if (!log[id][today]) delete log[id][today];
+  saveTrackerLog(log);
+  renderTrackers();
+}
+
+function removeTracker(id) {
+  const trackers = loadTrackers().filter((t) => t.id !== id);
+  saveTrackers(trackers);
+  const log = loadTrackerLog();
+  delete log[id];
+  saveTrackerLog(log);
+  renderTrackers();
+}
+
+function handleExportTrackers() {
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    trackers: loadTrackers(),
+    log: loadTrackerLog(),
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `norbert-trackers-${todayKey()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function handleImportTrackers(evt) {
+  const file = evt.target.files && evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const payload = JSON.parse(reader.result);
+      if (!Array.isArray(payload.trackers) || typeof payload.log !== "object") {
+        throw new Error("File doesn't look like a trackers export.");
+      }
+      saveTrackers(payload.trackers);
+      saveTrackerLog(payload.log);
+      renderTrackers();
+    } catch (err) {
+      alert(`Couldn't import that file: ${err.message}`);
+    } finally {
+      evt.target.value = "";
+    }
+  };
+  reader.readAsText(file);
 }
 
 /* ---------- Footer ---------- */

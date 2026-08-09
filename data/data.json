@@ -41,5 +41,27 @@
     "proof": "One coaching rhythm kept all 90 days + 3 real conversations a week.",
     "dateStart": "2026-07-01",
     "progressPct": 100
+  },
+  "season": {
+    "annual": {
+      "period": "2026",
+      "status": "Closed Out",
+      "focus": "Careful building",
+      "identity": "Excited, energized, present — trying my best each day, with genuine connections along the way. Time is sacred; energy protected like a bank account.",
+      "priorities": "(1) Regulated Health + Energy (sleep, workouts, clean diet, protected joy + humor); (2) Stabilize my professional track — no process-hopping"
+    },
+    "monthly": {
+      "period": "July 2026",
+      "status": "Closed Out",
+      "focus": "focus on what I do have control of and let go of everything else",
+      "adjustment": "focus on what I do have control of and let go of everything else",
+      "energyGauge": "More in the tank"
+    },
+    "weekly": {
+      "period": "Week 4 — Aug",
+      "status": "Closed Out",
+      "showUpAs": "having that fire lit underneath me so I can really push myself and stop coming up with excuses. if i want a better life I need to create a better life.",
+      "skillPracticing": "time management"
+    }
   }
 }

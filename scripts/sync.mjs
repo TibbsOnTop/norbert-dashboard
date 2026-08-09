@@ -8,6 +8,9 @@ import { dirname, join } from "node:path";
 
 const LIFE_TRACKER_DB_ID = "fbc5f96f-f75f-4772-bef8-56ae592d47f4";
 const QUARTERLY_ARCHIVE_DB_ID = "45ce9c5e-d815-44c2-a299-638e4586cafe";
+const ANNUAL_ARCHIVE_DB_ID = "3f02e35a-b54f-4c7c-8423-c91e090e9109";
+const MONTHLY_ARCHIVE_DB_ID = "3133f8e3-71dc-430d-9557-b249f39ec144";
+const WEEKLY_ARCHIVE_DB_ID = "47dff85c-6bf4-408e-b0f9-f0f0d2be654b";
 const NOTION_VERSION = "2022-06-28";
 const QUARTER_LENGTH_DAYS = 90;
 
@@ -21,9 +24,12 @@ async function main() {
     process.exit(1);
   }
 
-  const [lifeTrackerRows, quarterlyRows] = await Promise.all([
+  const [lifeTrackerRows, quarterlyRows, annualRows, monthlyRows, weeklyRows] = await Promise.all([
     queryDatabase(LIFE_TRACKER_DB_ID, token),
     queryDatabase(QUARTERLY_ARCHIVE_DB_ID, token),
+    queryDatabase(ANNUAL_ARCHIVE_DB_ID, token),
+    queryDatabase(MONTHLY_ARCHIVE_DB_ID, token),
+    queryDatabase(WEEKLY_ARCHIVE_DB_ID, token),
   ]);
 
   const lifeTracker = lifeTrackerRows
@@ -36,8 +42,26 @@ async function main() {
     .filter((r) => r.date)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
+  const annuals = annualRows
+    .map(parseAnnualRow)
+    .filter((r) => r.date)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const months = monthlyRows
+    .map(parseMonthlyRow)
+    .filter((r) => r.date)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const weeks = weeklyRows
+    .map(parseWeeklyRow)
+    .filter((r) => r.date)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
   const latest = lifeTracker[lifeTracker.length - 1] || null;
   const latestQuarter = quarters[0] || null;
+  const latestAnnual = annuals[0] || null;
+  const latestMonth = months[0] || null;
+  const latestWeek = weeks[0] || null;
 
   const data = {
     generatedAt: new Date().toISOString(),
@@ -82,12 +106,43 @@ async function main() {
           progressPct: computeQuarterProgress(latestQuarter),
         }
       : null,
+    season: {
+      annual: latestAnnual
+        ? {
+            period: latestAnnual.period,
+            status: latestAnnual.status,
+            focus: latestAnnual.focus,
+            identity: latestAnnual.identity,
+            priorities: latestAnnual.priorities,
+          }
+        : null,
+      monthly: latestMonth
+        ? {
+            period: latestMonth.period,
+            status: latestMonth.status,
+            focus: latestMonth.focus,
+            adjustment: latestMonth.adjustment,
+            energyGauge: latestMonth.energyGauge,
+          }
+        : null,
+      weekly: latestWeek
+        ? {
+            period: latestWeek.period,
+            status: latestWeek.status,
+            showUpAs: latestWeek.showUpAs,
+            skillPracticing: latestWeek.skillPracticing,
+          }
+        : null,
+    },
   };
 
   await writeFile(OUT_PATH, JSON.stringify(data, null, 2) + "\n", "utf-8");
   console.log(`Wrote ${OUT_PATH}`);
   console.log(`  Life Tracker rows: ${lifeTracker.length}`);
   console.log(`  Quarterly rows: ${quarters.length}`);
+  console.log(`  Annual rows: ${annuals.length}`);
+  console.log(`  Monthly rows: ${months.length}`);
+  console.log(`  Weekly rows: ${weeks.length}`);
 }
 
 async function queryDatabase(databaseId, token) {
@@ -146,6 +201,41 @@ function parseQuarterlyRow(page) {
     focus: getText(p, "Quarter Focus"),
     priorities: getText(p, "Quarter Priorities"),
     proof: getText(p, "Quarter Proof"),
+  };
+}
+
+function parseAnnualRow(page) {
+  const p = page.properties;
+  return {
+    period: getTitle(p, "Period"),
+    date: getDate(p, "Date"),
+    status: getSelect(p, "Status"),
+    focus: getText(p, "Year Focus"),
+    identity: getText(p, "Year Identity"),
+    priorities: getText(p, "Annual Priorities"),
+  };
+}
+
+function parseMonthlyRow(page) {
+  const p = page.properties;
+  return {
+    period: getTitle(p, "Period"),
+    date: getDate(p, "Date"),
+    status: getSelect(p, "Status"),
+    focus: getText(p, "Month Focus"),
+    adjustment: getText(p, "Monthly Adjustment"),
+    energyGauge: getSelect(p, "Energy Gauge This Month"),
+  };
+}
+
+function parseWeeklyRow(page) {
+  const p = page.properties;
+  return {
+    period: getTitle(p, "Period"),
+    date: getDate(p, "Date"),
+    status: getSelect(p, "Status"),
+    showUpAs: getText(p, "Show Up As"),
+    skillPracticing: getText(p, "Skill Practicing"),
   };
 }
 
