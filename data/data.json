@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-08-10T13:19:03.932Z",
+  "generatedAt": "2026-08-10T13:28:24.840Z",
   "overview": {
-    "period": "Week 1 — Aug",
+    "period": "Week 2 — Aug",
     "big3": [
-      "Workout a minimum of 3 times this week and 1 day of walking",
-      "Obtaining these metrics in my business: Added owners - 25, commenting - 25 and posts - 6",
-      "Bring the love to my wife intentionally"
+      "Focus on hitting Targets for this week at 66% not 100",
+      "Go to the gym 2 times before Chicago",
+      "Have fun and be present with my family."
     ],
     "sourceUrl": null,
     "anchors": {
-      "workout": "Held",
-      "presence": "Held"
+      "workout": null,
+      "presence": null
     }
   },
   "lifeScan": [
@@ -31,6 +31,15 @@
       "relationships": 4,
       "innerSteadiness": 3,
       "direction": 3
+    },
+    {
+      "period": "Week 2 — Aug",
+      "date": "2026-08-10",
+      "business": null,
+      "health": null,
+      "relationships": null,
+      "innerSteadiness": null,
+      "direction": null
     }
   ],
   "patterns": [
