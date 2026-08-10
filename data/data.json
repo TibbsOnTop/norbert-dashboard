@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-08-10T03:07:21.451Z",
+  "generatedAt": "2026-08-10T13:19:03.932Z",
   "overview": {
-    "period": "Week 4 — Aug",
+    "period": "Week 1 — Aug",
     "big3": [
-      "3 days weightlifting + 1 day 5k steps",
-      "Comments 5–15",
-      "Enjoy moments with wife without needing to have made money"
+      "Workout a minimum of 3 times this week and 1 day of walking",
+      "Obtaining these metrics in my business: Added owners - 25, commenting - 25 and posts - 6",
+      "Bring the love to my wife intentionally"
     ],
-    "sourceUrl": "https://app.notion.com/p/3b0df610246b8105a71edd322afb6803",
+    "sourceUrl": null,
     "anchors": {
       "workout": "Held",
-      "presence": "Partial"
+      "presence": "Held"
     }
   },
   "lifeScan": [
@@ -22,9 +22,25 @@
       "relationships": 4,
       "innerSteadiness": 3,
       "direction": 2
+    },
+    {
+      "period": "Week 1 — Aug",
+      "date": "2026-08-03",
+      "business": 3,
+      "health": 4,
+      "relationships": 4,
+      "innerSteadiness": 3,
+      "direction": 3
     }
   ],
   "patterns": [
+    {
+      "period": "Week 1 — Aug",
+      "date": "2026-08-03",
+      "cadence": "Weekly",
+      "note": "Direction scored lowest of all five categories every single day this week (2-4, avg 2.9), even as Health, Relationships, and Business climbed and stayed steady — despite strong follow-through (4 workouts, DMs, content, quality time with wife), the felt sense of forward direction lagged behind actual effort all week.",
+      "sourceUrl": null
+    },
     {
       "period": "Week 4 — Aug",
       "date": "2026-08-02",
@@ -53,15 +69,15 @@
     "monthly": {
       "period": "September 2026",
       "status": "Draft",
-      "focus": "",
-      "adjustment": "",
+      "focus": null,
+      "adjustment": null,
       "energyGauge": null
     },
     "weekly": {
       "period": "Week 4 — Sep",
       "status": "Draft",
-      "showUpAs": "",
-      "skillPracticing": ""
+      "showUpAs": null,
+      "skillPracticing": null
     }
   }
 }
