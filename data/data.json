@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T13:28:24.840Z",
+  "generatedAt": "2026-08-17T02:14:31.776Z",
   "overview": {
     "period": "Week 2 — Aug",
     "big3": [
@@ -78,15 +78,15 @@
     "monthly": {
       "period": "September 2026",
       "status": "Draft",
-      "focus": null,
-      "adjustment": null,
+      "focus": "",
+      "adjustment": "",
       "energyGauge": null
     },
     "weekly": {
       "period": "Week 4 — Sep",
       "status": "Draft",
-      "showUpAs": null,
-      "skillPracticing": null
+      "showUpAs": "",
+      "skillPracticing": ""
     }
   }
 }
