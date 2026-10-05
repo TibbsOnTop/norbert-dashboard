@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T06:08:24.758Z",
+  "generatedAt": "2026-10-05T06:26:06.561Z",
   "overview": {
     "period": "Week 2 — Aug",
     "big3": [
@@ -59,13 +59,13 @@
     }
   ],
   "quarterProof": {
-    "period": "Season Set (Sep. - Dec. 2026)",
+    "period": "Season Alignment (Sep. - Dec. 2026)",
     "status": null,
     "focus": "",
     "priorities": "",
     "proof": "",
     "dateStart": "2026-09-27",
-    "progressPct": 1
+    "progressPct": 9
   },
   "season": {
     "annual": {
@@ -76,15 +76,15 @@
       "priorities": "(1) Regulated Health + Energy (sleep, workouts, clean diet, protected joy + humor); (2) Stabilize my professional track — no process-hopping"
     },
     "monthly": {
-      "period": "September 2026",
-      "status": "Draft",
+      "period": "October 2026",
+      "status": null,
       "focus": "",
       "adjustment": "",
       "energyGauge": null
     },
     "weekly": {
-      "period": "Week 5 — Sep",
-      "status": "Draft",
+      "period": "Week 2 - Oct ",
+      "status": null,
       "showUpAs": "",
       "skillPracticing": ""
     }
