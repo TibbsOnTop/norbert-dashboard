@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-05T06:26:06.561Z",
+  "generatedAt": "2026-10-12T06:48:36.848Z",
   "overview": {
     "period": "Week 2 — Aug",
     "big3": [
@@ -65,7 +65,7 @@
     "priorities": "",
     "proof": "",
     "dateStart": "2026-09-27",
-    "progressPct": 9
+    "progressPct": 17
   },
   "season": {
     "annual": {
@@ -83,7 +83,7 @@
       "energyGauge": null
     },
     "weekly": {
-      "period": "Week 2 - Oct ",
+      "period": "Week 4 - Oct",
       "status": null,
       "showUpAs": "",
       "skillPracticing": ""
